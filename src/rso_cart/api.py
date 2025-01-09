@@ -5,9 +5,13 @@ from rso_cart.cart_utils import (
     decrease_quantity_of_product_in_cart,
 )
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 import uvicorn
 
 app = FastAPI()
+
+# metrics
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/")
