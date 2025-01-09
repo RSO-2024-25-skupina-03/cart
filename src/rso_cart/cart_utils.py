@@ -1,5 +1,4 @@
 from rso_cart.db import create_cart_collection_if_not_exists
-from fastapi import HTTPException
 import logging
 import sys
 

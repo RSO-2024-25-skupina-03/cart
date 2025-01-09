@@ -3,7 +3,7 @@ name = "cart"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "Iztok Bajcar", email = "iztok.bajcar@gmail.com" }]
-dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "pymongo>=4.10.1"]
+dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "pymongo>=4.10.1", "tox>=4.23.2", "pytest-asyncio>=0.25.2"]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "MIT" }
@@ -15,3 +15,26 @@ distribution = false
 [tool.pdm.scripts]
 api = { cmd = "src/rso_cart/api.py", env = { "PYTHONPATH" = "src" } }
 test = "tox"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+env_list = py{311},lint
+
+[testenv]
+groups = dev
+commands =
+    pytest --cov tests
+deps =
+    pytest
+    pytest-cov
+
+[testenv:lint]
+groups = lint
+commands =
+    ruff check src tests
+deps =
+    ruff"""
