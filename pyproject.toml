@@ -3,7 +3,7 @@ name = "cart"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "Iztok Bajcar", email = "iztok.bajcar@gmail.com" }]
-dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "pymongo>=4.10.1", "tox>=4.23.2", "pytest-asyncio>=0.25.2", "prometheus-fastapi-instrumentator>=7.0.0"]
+dependencies = ["fastapi>=0.115.6", "uvicorn>=0.34.0", "pymongo>=4.10.1", "tox>=4.23.2", "pytest-asyncio>=0.25.2", "prometheus-fastapi-instrumentator>=7.0.0", "python-logging-loki>=0.3.1"]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = { text = "MIT" }

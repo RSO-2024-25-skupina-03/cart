@@ -4,9 +4,15 @@ from rso_cart.cart_utils import (
     add_product_to_cart,
     decrease_quantity_of_product_in_cart,
 )
+from rso_cart.utils import loki_handler
 from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 import uvicorn
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(loki_handler)
 
 app = FastAPI()
 
@@ -19,11 +25,13 @@ async def root():
     """
     Returns a message.
     """
+    logger.info("GET /")
     return {"status": "Cart API online"}
 
 
 @app.get("/cart/{uid}")
 async def get_cart(uid):
+    logger.info(f"GET /cart/{uid}")
     db_conn = connect_to_database("mongo", "rso_shop")
     cart_info = get_cart_info(db_conn, uid)
     return cart_info.to_dict()
@@ -31,6 +39,7 @@ async def get_cart(uid):
 
 @app.post("/cart/{uid}/{pid}")
 async def add_to_cart(uid, pid):
+    logger.info(f"POST /cart/{uid}/{pid}")
     db_conn = connect_to_database("mongo", "rso_shop")
 
     # create the collection if needed
@@ -54,6 +63,7 @@ async def add_to_cart(uid, pid):
 
 @app.delete("/cart/{uid}/{pid}")
 async def delete_from_cart(uid, pid):
+    logger.info(f"DELETE /cart/{uid}/{pid}")
     db_conn = connect_to_database("mongo", "rso_shop")
     cart_info = get_cart_info(db_conn, uid)
     new_cart_info = decrease_quantity_of_product_in_cart(cart_info, pid)
