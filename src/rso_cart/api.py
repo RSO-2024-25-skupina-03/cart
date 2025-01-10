@@ -82,4 +82,6 @@ async def delete_from_cart(uid, pid):
 
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=8080, reload=True)
+    uvicorn.run(
+        "api:app", host="0.0.0.0", root_path="/api/cart", port=8080, reload=True
+    )
