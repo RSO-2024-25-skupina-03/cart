@@ -1,5 +1,6 @@
 FROM python:3.11-alpine
 
+RUN apk add curl
 RUN pip install --no-cache-dir pdm
 COPY src/rso_cart /app/src/rso_cart
 COPY pdm.lock /app
