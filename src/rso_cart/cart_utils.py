@@ -1,7 +1,6 @@
 from rso_cart.db import create_cart_collection_if_not_exists
 from rso_cart.utils import loki_handler
 import logging
-import sys
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
