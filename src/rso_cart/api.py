@@ -29,18 +29,22 @@ async def root():
     return {"status": "Cart API online"}
 
 
-@app.get("/cart/{uid}")
-async def get_cart(uid):
-    logger.info(f"GET /cart/{uid}")
-    db_conn = connect_to_database("mongo", "rso_shop")
+@app.get("/{tenant}/cart/{uid}")
+async def get_cart(tenant, uid):
+    logger.info(f"GET /{tenant}/cart/{uid}")
+    db_name = f"rso_shop_{tenant}"
+    logger.info(f"Using database: {db_name}")
+    db_conn = connect_to_database("mongo", db_name)
     cart_info = get_cart_info(db_conn, uid)
     return cart_info.to_dict()
 
 
-@app.post("/cart/{uid}/{pid}")
-async def add_to_cart(uid, pid):
-    logger.info(f"POST /cart/{uid}/{pid}")
-    db_conn = connect_to_database("mongo", "rso_shop")
+@app.post("/{tenant}/cart/{uid}/{pid}")
+async def add_to_cart(tenant, uid, pid):
+    logger.info(f"POST /{tenant}/cart/{uid}/{pid}")
+    db_name = f"rso_shop_{tenant}"
+    logger.info(f"Using database: {db_name}")
+    db_conn = connect_to_database("mongo", db_name)
 
     # create the collection if needed
     create_cart_collection_if_not_exists(db_conn)
@@ -61,10 +65,12 @@ async def add_to_cart(uid, pid):
     return new_cart_info.to_dict()
 
 
-@app.delete("/cart/{uid}/{pid}")
-async def delete_from_cart(uid, pid):
-    logger.info(f"DELETE /cart/{uid}/{pid}")
-    db_conn = connect_to_database("mongo", "rso_shop")
+@app.delete("/{tenant}/cart/{uid}/{pid}")
+async def delete_from_cart(tenant, uid, pid):
+    logger.info(f"DELETE /{tenant}/cart/{uid}/{pid}")
+    db_name = f"rso_shop_{tenant}"
+    logger.info(f"Using database: {db_name}")
+    db_conn = connect_to_database("mongo", db_name)
     cart_info = get_cart_info(db_conn, uid)
     new_cart_info = decrease_quantity_of_product_in_cart(cart_info, pid)
     new_contents = new_cart_info.get_contents()
